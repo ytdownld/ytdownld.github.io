@@ -1,0 +1,78 @@
+.searchSection {
+  min-height: 100vh;
+  width: calc(100vw - 4rem);
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 5rem;
+
+  & > i {
+    font-size: 10rem;
+    color: var(--thumbnail-ico);
+  }
+}
+
+input {
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 42px;
+  letter-spacing: 0.05em;
+  color: var(--txt-color2);
+
+  background: var(--sub-background);
+  border: 3px solid var(--stroke-color);
+  border-radius: 5px;
+
+  padding: 0.5rem 3.5rem;
+  outline: none;
+}
+
+.search {
+  position: relative;
+
+  button {
+    position: absolute;
+    width: 3.5rem;
+    background: transparent;
+    border: none;
+    font-size: 1.6rem;
+    display: grid;
+    place-content: center;
+  }
+
+  .searchIco {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    color: var(--txt-st);
+    pointer-events: none;
+  }
+
+  input:focus ~ .searchIco {
+    filter: contrast(1.6);
+  }
+
+  input:not(:focus) ~ .searchClearIco {
+    opacity: 0;
+    cursor: default;
+  }
+
+  .searchClearIco {
+    right: 0;
+    top: 0;
+    bottom: 0;
+    cursor: pointer;
+    transition: opacity 300ms, transform 300ms ease;
+
+    &:hover {
+      color: var(--txt-color1);
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+}
