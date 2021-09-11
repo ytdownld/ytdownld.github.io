@@ -12,6 +12,17 @@
   --thumbnail-ico: #af6666;
 }
 
+[data-theme="dark"] {
+  --background: #201f1f;
+  --sub-background: #272626;
+  --stroke-color: #302e2e;
+
+  --txt-color1: #ff7474;
+  --txt-color2: #ffffff;
+  --txt-st: #bd5b5b;
+  --thumbnail-ico: #af6666;
+}
+
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;

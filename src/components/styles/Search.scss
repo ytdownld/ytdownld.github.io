@@ -65,6 +65,7 @@ input {
     top: 0;
     bottom: 0;
     cursor: pointer;
+    color: var(--txt-color2);
     transition: opacity 300ms, transform 300ms ease;
 
     &:hover {

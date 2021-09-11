@@ -16,6 +16,7 @@
     font-size: 1.2rem;
     letter-spacing: 6px;
     word-spacing: 0.4rem;
+    color: var(--txt-color2);
 
     span {
       color: var(--txt-color1);
@@ -45,14 +46,14 @@
         top: 50%;
         transform: translateY(-50%);
         margin: 0rem 0.4rem;
-        background: white;
+        background: var(--background);
         transition: transform 300ms;
       }
     }
 
     .site_theme.dark {
-      background: var(--txt-color2);
       &::after {
+        background: var(--txt-color2);
         transform: translate(21px, -50%);
       }
     }

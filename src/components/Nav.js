@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import "./styles/Nav.scss";
 
-export default function Nav() {
-  const [darkTheme, setTheme] = useState(false);
+export default function Nav({ dark, switchTheme }) {
   return (
     <div className="nav">
       <div className="site_title">
@@ -10,8 +9,8 @@ export default function Nav() {
       </div>
       <div className="site_pref">
         <div
-          onClick={() => setTheme(!darkTheme)}
-          className={`site_theme ${darkTheme && "dark"}`}
+          onClick={switchTheme}
+          className={`site_theme ${dark ? "dark" : ""}`}
         ></div>
         <div className="pref">
           <i class="ri-settings-6-fill"></i>
