@@ -1,0 +1,136 @@
+$animaDelay: 100ms;
+
+.videoInfoSection {
+  min-height: 100vh;
+  width: calc(100vw - 3.04rem);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 5rem;
+
+  // & > i {
+  //   font-size: 10rem;
+  //   color: var(--thumbnail-ico);
+  // }
+
+  $maxWidth: 850px;
+  $width: 100%;
+  $op: 0;
+
+  .search {
+    max-width: $maxWidth;
+    width: $width;
+    animation: initAnima 1000ms $animaDelay * 0 1 forwards;
+    opacity: $op;
+    input {
+      width: calc(100% - 7rem);
+    }
+  }
+
+  .infoContainer {
+    max-width: $maxWidth;
+    width: $width;
+    display: flex;
+    gap: 2rem;
+    // background: lightblue;
+
+    .thumbnailContainer {
+      position: relative;
+      display: grid;
+      place-content: center;
+      width: 75%;
+      height: fit-content;
+      aspect-ratio: 16 / 9;
+      background: var(--sub-background);
+      border-radius: 10px;
+
+      font-size: 7rem;
+      color: var(--thumbnail-ico);
+      overflow: hidden;
+      animation: initAnima 1000ms $animaDelay * 0.5 1 forwards;
+      opacity: $op;
+
+      .thumbnail {
+        position: absolute;
+        inset: 0;
+        background-image: url("https://i.ytimg.com/vi/qJeKZkK31JE/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDGhl_b4P2KuvHMUQVmCjHOSSzeyQ");
+        background-position: center;
+        background-size: cover;
+      }
+    }
+
+    .videoInfo {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .videoChannel {
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--txt-color2);
+        opacity: 0.8;
+        animation: initAnima 1000ms $animaDelay * 1 1 forwards;
+        opacity: $op;
+      }
+
+      .videoTitle {
+        font-weight: bold;
+        font-size: 1.8rem;
+        color: var(--txt-color2);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        animation: initAnima 1000ms $animaDelay * 2 1 forwards;
+        opacity: $op;
+      }
+
+      .videoDuration {
+        background: var(--txt-color1);
+        color: var(--background);
+        width: max-content;
+        padding: 0.25rem 0.8rem 0.25rem 0.3rem;
+        border-radius: 100px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+
+        font-weight: bold;
+        font-size: 1rem;
+        letter-spacing: 2px;
+        animation: initAnima 1000ms $animaDelay * 3 1 forwards;
+        opacity: $op;
+
+        & > i {
+          font-weight: normal;
+          font-size: 1.7rem;
+        }
+      }
+
+      .availableTitle {
+        margin-top: 2rem;
+        letter-spacing: 4px;
+        font-size: 1.1rem;
+        animation: initAnima 1000ms $animaDelay * 4 1 forwards;
+        opacity: $op;
+      }
+    }
+
+    .videoQualityList {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 1.2rem;
+      animation: initAnima 1000ms $animaDelay * 5 1 forwards;
+      opacity: $op;
+    }
+  }
+}

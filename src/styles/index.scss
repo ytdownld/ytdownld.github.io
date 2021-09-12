@@ -1,6 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "remixicon/fonts/remixicon.css";
 
+@keyframes initAnima {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 :root {
   --background: #fff0f0;
   --sub-background: #f2e5e5;
@@ -27,4 +39,19 @@ body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   background: var(--background);
+}
+
+input {
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 42px;
+  letter-spacing: 0.05em;
+  color: var(--txt-color2);
+
+  background: var(--sub-background);
+  border: 3px solid var(--stroke-color);
+  border-radius: 5px;
+
+  padding: 0.5rem 3.5rem;
+  outline: none;
 }
