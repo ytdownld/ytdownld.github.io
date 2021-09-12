@@ -1,0 +1,92 @@
+.prefModal {
+  position: fixed;
+  inset: 0;
+  background: #0000005d;
+  z-index: 1;
+
+  display: grid;
+  place-items: center;
+
+  .prefContainer {
+    pointer-events: all;
+    width: calc(100% - 4rem);
+    max-width: 600px;
+    min-height: 100px;
+    margin: 2rem;
+    background: var(--background);
+    border-radius: 5px;
+
+    .prefHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      color: var(--txt-color2);
+
+      &:first-child {
+        font-size: 1.7rem;
+        font-weight: bold;
+      }
+
+      button {
+        cursor: pointer;
+        border: none;
+        font-size: 2rem;
+        background: transparent;
+        display: grid;
+        place-content: center;
+        aspect-ratio: 1 / 1;
+        border-radius: 5px;
+        color: var(--txt-color2);
+
+        &:hover {
+          background: var(--sub-background);
+        }
+      }
+    }
+
+    .prefList {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+
+      .prefItem {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .prefItemAction {
+          & > :not(.switch) {
+            width: 140px;
+          }
+        }
+      }
+
+      .prefItem.disabled {
+        opacity: 0.3;
+        filter: grayscale(1);
+        pointer-events: none;
+        user-select: none;
+      }
+
+      .prefTitle {
+        font-weight: bold;
+        text-transform: uppercase;
+        color: var(--txt-color2);
+        word-spacing: 0.2rem;
+        span {
+          color: var(--thumbnail-ico);
+        }
+      }
+
+      .prefDesc {
+        margin-top: 0.5rem;
+        max-width: 35ch;
+        font-size: 0.9rem;
+        opacity: 0.9;
+        color: var(--txt-color2);
+      }
+    }
+  }
+}

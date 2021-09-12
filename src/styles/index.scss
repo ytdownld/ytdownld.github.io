@@ -55,3 +55,33 @@ input {
   padding: 0.5rem 3.5rem;
   outline: none;
 }
+
+.switch {
+  position: relative;
+  background: var(--txt-color2);
+  width: 3rem;
+  height: 1.5rem;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background 300ms;
+
+  &::after {
+    position: absolute;
+    content: "";
+    width: 15px;
+    height: 15px;
+    border-radius: 100px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0rem 0.4rem;
+    background: var(--background);
+    transition: transform 300ms;
+  }
+}
+
+.switch.on {
+  background: var(--txt-color1);
+  &::after {
+    transform: translate(21px, -50%);
+  }
+}

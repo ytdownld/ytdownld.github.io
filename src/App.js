@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Loading from "./components/Loading";
 import Nav from "./components/Nav";
+import Preferences from "./components/Preferences";
 import Search from "./components/Search";
 import VideoInfo from "./components/VideoInfo";
 
@@ -8,11 +9,22 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+const formatTypes = [
+  { value: "chocolate", label: "Chocolate" },
+  { value: "strawberry", label: "Strawberry" },
+  { value: "vanilla", label: "Vanilla" },
+];
+
 function App() {
   const [dark, setDark] = useState(false);
   const [url, setUrl] = useState("");
   const [onSearch, setSearch] = useState(false);
   const [showInitial, setInitial] = useState(true);
+
+  const [showPref, setPref] = useState(true);
+  const [autoDownload, setAutoDownload] = useState(false);
+  const [nativeMode, setNativeMode] = useState(false);
+  const [formatType, setFormatType] = useState({});
 
   useEffect(() => {
     const local_dark = localStorage.getItem("dark");
@@ -23,6 +35,20 @@ function App() {
       setDark(true);
       document.documentElement.setAttribute("data-theme", "dark");
     }
+
+    const localAutoDownload = localStorage.getItem("autoDownload");
+    setAutoDownload(localAutoDownload === "true" ? true : false);
+
+    const localFormatType = JSON.parse(localStorage.getItem("formatType"));
+    if (!localFormatType) {
+      localStorage.setItem("formatType", JSON.stringify(formatTypes[0]));
+      setFormatType(formatTypes[0]);
+    } else {
+      setFormatType(localFormatType);
+    }
+
+    const localNativeMode = localStorage.getItem("nativeMode");
+    setNativeMode(localNativeMode === "true" ? true : false);
   }, []);
 
   const switchTheme = () => {
@@ -37,6 +63,31 @@ function App() {
     }
   };
 
+  const changeFormat = (e) => {
+    localStorage.setItem("formatType", JSON.stringify(e));
+    setFormatType(e);
+  };
+
+  const toggleAutoDownload = () => {
+    if (autoDownload) {
+      setAutoDownload(false);
+      localStorage.setItem("autoDownload", "false");
+    } else {
+      setAutoDownload(true);
+      localStorage.setItem("autoDownload", "true");
+    }
+  };
+
+  const toggleNativeMode = () => {
+    if (nativeMode) {
+      setNativeMode(false);
+      localStorage.setItem("nativeMode", "false");
+    } else {
+      setNativeMode(true);
+      localStorage.setItem("nativeMode", "true");
+    }
+  };
+
   const getVideoInfo = async (e) => {
     if (e.key !== "Enter") return;
     // Need to fetch data here
@@ -48,7 +99,19 @@ function App() {
 
   return (
     <div className="App">
-      <Nav dark={dark} switchTheme={switchTheme} />
+      {showPref && (
+        <Preferences
+          setPref={setPref}
+          autoDownload={autoDownload}
+          onAutoDownloadChange={toggleAutoDownload}
+          formatType={formatType}
+          formatTypes={formatTypes}
+          onFormatChange={changeFormat}
+          nativeMode={nativeMode}
+          onNativeModeChange={toggleNativeMode}
+        />
+      )}
+      <Nav dark={dark} switchTheme={switchTheme} setPref={setPref} />
       {onSearch ? (
         <Loading />
       ) : (
