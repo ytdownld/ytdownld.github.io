@@ -76,6 +76,7 @@ $animaDelay: 100ms;
         opacity: 0.8;
         animation: initAnima 1000ms $animaDelay * 1 1 forwards;
         opacity: $op;
+        transition: color 300ms;
       }
 
       .videoTitle {
@@ -89,6 +90,7 @@ $animaDelay: 100ms;
         -webkit-box-orient: vertical;
         animation: initAnima 1000ms $animaDelay * 2 1 forwards;
         opacity: $op;
+        transition: color 300ms;
       }
 
       .videoDuration {
@@ -108,6 +110,7 @@ $animaDelay: 100ms;
         letter-spacing: 2px;
         animation: initAnima 1000ms $animaDelay * 3 1 forwards;
         opacity: $op;
+        transition: color 300ms;
 
         & > i {
           font-weight: normal;

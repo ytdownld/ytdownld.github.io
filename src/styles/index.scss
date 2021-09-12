@@ -39,6 +39,8 @@ body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   background: var(--background);
+
+  transition: background 300ms;
 }
 
 input {
@@ -54,6 +56,7 @@ input {
 
   padding: 0.5rem 3.5rem;
   outline: none;
+  transition: border-color 300ms, background 300ms, color 300ms;
 }
 
 .switch {
