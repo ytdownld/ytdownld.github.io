@@ -39,8 +39,9 @@
     }
 
     .site_theme.dark {
+      background: var(--stroke-color);
       &::after {
-        background: var(--txt-color2);
+        background: var(--txt-color1);
         transform: translate(21px, -50%);
       }
     }
