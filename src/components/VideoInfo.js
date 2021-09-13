@@ -2,18 +2,26 @@ import React, { useState } from "react";
 import "./styles/VideoInfo.scss";
 import VideoQuality from "./VideoQuality";
 
-export default function VideoInfo({ url, setUrl, getVideoInfo }) {
-  const [qualities, setQualities] = useState([
-    {
-      resolution: "320kbps",
-      format: ".mp3",
-    },
-    {
-      resolution: "720P",
-      format: ".mp4",
-    },
-  ]);
+const getStrDuration = (sec) => {
+  let h, m;
+  if (sec < 60) {
+    return `${sec} sec`;
+  }
 
+  m = Math.floor(sec / 60);
+
+  if (m < 60) {
+    return `${m} min${sec % 60 !== 0 ? ` ${sec % 60} sec` : ""}`;
+  }
+
+  h = Math.floor(m / 60);
+
+  return `${h} h${m % 60 !== 0 ? ` ${m % 60} min` : ""}${
+    sec % 60 !== 0 ? ` ${sec % 60} sec` : ""
+  }`;
+};
+
+export default function VideoInfo({ url, setUrl, getVideoInfo, videoInfo }) {
   return (
     <div className="videoInfoSection">
       <div className="search">
@@ -34,25 +42,27 @@ export default function VideoInfo({ url, setUrl, getVideoInfo }) {
       <div className="infoContainer">
         <div className="thumbnailContainer">
           <i className="ri-youtube-line"></i>
-          <div className="thumbnail"></div>
+          <div
+            className="thumbnail"
+            style={{ backgroundImage: `url('${videoInfo.thumbnail}')` }}
+          ></div>
         </div>
         <div className="videoInfo">
-          <div className="videoChannel">Linus Tech Tips</div>
-          <div className="videoTitle">
-            My Unlimited Budget WiFi at the New House dasdasdasasdasd sdasdasdas
-          </div>
+          <div className="videoChannel">{videoInfo.channel.name}</div>
+          <div className="videoTitle">{videoInfo.title}</div>
           <div className="videoDuration">
-            <i class="ri-time-fill"></i>17:35 min
+            <i class="ri-time-fill"></i>
+            {getStrDuration(videoInfo.duration)}
           </div>
           <div className="availableTitle">
             <span>Available</span> Formats
           </div>
           <div className="videoQualityList">
-            {qualities.map((quality, index) => (
+            {videoInfo.formats.map((format, index) => (
               <VideoQuality
                 key={index}
-                resolution={quality.resolution}
-                format={quality.format}
+                resolution={format.quality}
+                format={format.format}
               />
             ))}
           </div>

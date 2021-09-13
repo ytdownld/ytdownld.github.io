@@ -8,8 +8,10 @@ $animaDelay: 100ms;
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 5rem;
+  padding-top: 8rem;
+  z-index: -1;
 
   // & > i {
   //   font-size: 10rem;

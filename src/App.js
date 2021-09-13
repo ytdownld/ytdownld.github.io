@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import Loading from "./components/Loading";
 import Nav from "./components/Nav";
@@ -8,6 +9,8 @@ import VideoInfo from "./components/VideoInfo";
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+const API = "https://ytdl-api.herokuapp.com";
 
 const formatTypes = [
   { value: "chocolate", label: "Chocolate" },
@@ -25,6 +28,8 @@ function App() {
   const [autoDownload, setAutoDownload] = useState(false);
   const [nativeMode, setNativeMode] = useState(false);
   const [formatType, setFormatType] = useState({});
+
+  const [videoInfo, setVideoInfo] = useState({});
 
   useEffect(() => {
     const local_dark = localStorage.getItem("dark");
@@ -93,8 +98,50 @@ function App() {
     // Need to fetch data here
     setInitial(false);
     setSearch(true);
-    await sleep(5000);
-    setSearch(false);
+
+    try {
+      const res = await axios.get(`${API}/videoInfo`, {
+        params: {
+          videoURL: url,
+        },
+      });
+
+      console.log(res.data);
+
+      const info = {
+        title: res.data.videoDetails.title,
+        duration: res.data.videoDetails.lengthSeconds,
+        thumbnail: res.data.videoDetails.thumbnails[3].url,
+        channel: {
+          name: res.data.videoDetails.author.name,
+          url: res.data.videoDetails.author.channel_url,
+        },
+        formats: res.data.formats
+          .filter((format) => {
+            if (format.container !== null && format.hasAudio === true) {
+              return true;
+            }
+            return false;
+          })
+          .map((format) => {
+            return {
+              url: format.url,
+              quality: format.hasVideo
+                ? format.qualityLabel
+                : `${format.audioBitrate} kbps`,
+              format: format.container,
+            };
+          }),
+      };
+
+      console.log(info);
+
+      setInitial(false);
+      setVideoInfo(info);
+      setSearch(false);
+    } catch (err) {
+      setInitial(true);
+    }
   };
 
   return (
@@ -116,7 +163,12 @@ function App() {
         <Loading />
       ) : (
         !showInitial && (
-          <VideoInfo url={url} setUrl={setUrl} getVideoInfo={getVideoInfo} />
+          <VideoInfo
+            url={url}
+            setUrl={setUrl}
+            getVideoInfo={getVideoInfo}
+            videoInfo={videoInfo}
+          />
         )
       )}
 
