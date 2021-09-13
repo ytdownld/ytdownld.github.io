@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import "./styles/VideoInfo.scss";
+import Status from "./subcomponents/Status";
 import VideoQuality from "./VideoQuality";
 
 const getStrDuration = (sec) => {
@@ -21,24 +22,36 @@ const getStrDuration = (sec) => {
   }`;
 };
 
-export default function VideoInfo({ url, setUrl, getVideoInfo, videoInfo }) {
+export default function VideoInfo({
+  url,
+  setUrl,
+  getVideoInfo,
+  videoInfo,
+  download,
+  status,
+}) {
   return (
     <div className="videoInfoSection">
-      <div className="search">
-        <input
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          onKeyDown={(e) => getVideoInfo(e)}
-          type="text"
-          placeholder="Video Url"
-        ></input>
-        <button className="searchIco">
-          <i class="ri-search-eye-line"></i>
-        </button>
-        <button onClick={() => setUrl("")} className="searchClearIco">
-          <i class="ri-close-line"></i>
-        </button>
+      <div className="searchWrapper">
+        <div className="search">
+          <input
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            onKeyDown={(e) => getVideoInfo(e)}
+            onPaste={(e) => getVideoInfo(e)}
+            type="text"
+            placeholder="Video Url"
+          ></input>
+          <button className="searchIco">
+            <i className="ri-search-eye-line"></i>
+          </button>
+          <button onClick={() => setUrl("")} className="searchClearIco">
+            <i className="ri-close-line"></i>
+          </button>
+        </div>
+        <Status status={status} />
       </div>
+
       <div className="infoContainer">
         <div className="thumbnailContainer">
           <i className="ri-youtube-line"></i>
@@ -51,7 +64,7 @@ export default function VideoInfo({ url, setUrl, getVideoInfo, videoInfo }) {
           <div className="videoChannel">{videoInfo.channel.name}</div>
           <div className="videoTitle">{videoInfo.title}</div>
           <div className="videoDuration">
-            <i class="ri-time-fill"></i>
+            <i className="ri-time-fill"></i>
             {getStrDuration(videoInfo.duration)}
           </div>
           <div className="availableTitle">
@@ -63,6 +76,10 @@ export default function VideoInfo({ url, setUrl, getVideoInfo, videoInfo }) {
                 key={index}
                 resolution={format.quality}
                 format={format.format}
+                isVideo={format.hasVideo}
+                url={format.url}
+                download={download}
+                itag={format.itag}
               />
             ))}
           </div>

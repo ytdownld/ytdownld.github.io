@@ -1,10 +1,16 @@
 import React from "react";
 import "./styles/Nav.scss";
 
-export default function Nav({ dark, switchTheme, setPref }) {
+export default function Nav({
+  dark,
+  switchTheme,
+  setPref,
+  showMain,
+  isSearching,
+}) {
   return (
-    <div className="nav">
-      <div className="site_title">
+    <div className="nav" style={isSearching ? { pointerEvents: "none" } : {}}>
+      <div className="site_title" onClick={showMain}>
         <span>Yt</span> downld
       </div>
       <div className="site_pref">
@@ -13,7 +19,7 @@ export default function Nav({ dark, switchTheme, setPref }) {
           className={`site_theme ${dark ? "dark" : ""}`}
         ></div>
         <div className="pref" onClick={() => setPref(true)}>
-          <i class="ri-settings-6-fill"></i>
+          <i className="ri-settings-6-fill"></i>
         </div>
       </div>
     </div>

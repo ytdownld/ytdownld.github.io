@@ -1,13 +1,18 @@
 import React from "react";
 import "./styles/VideoQuality.scss";
 
-export default function VideoQuality({ resolution, format }) {
+export default function VideoQuality({
+  resolution,
+  format,
+  url,
+  isVideo,
+  download,
+  itag,
+}) {
   return (
-    <div className="qualityCard">
+    <div className="qualityCard" onClick={() => download(url, itag)}>
       <div className="downldIco">
-        <i
-          className={format === ".mp3" ? "ri-music-fill" : "ri-movie-line"}
-        ></i>
+        <i className={isVideo ? "ri-movie-line" : "ri-music-fill"}></i>
       </div>
       <div className="resolution">{resolution}</div>
       <div className="format">{format}</div>

@@ -22,13 +22,19 @@ $animaDelay: 100ms;
   $width: 100%;
   $op: 0;
 
-  .search {
+  .searchWrapper {
     max-width: $maxWidth;
     width: $width;
     animation: initAnima 1000ms $animaDelay * 0 1 forwards;
     opacity: $op;
+  }
+
+  .search {
+    max-width: inherit;
+    width: inherit;
+
     input {
-      width: calc(100% - 7rem);
+      width: calc(100% - 7.35rem);
     }
   }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Select from "react-select";
 import "./styles/Preferences.scss";
 import ToggleSwitch from "./subcomponents/ToggleSwitch";
@@ -58,7 +58,7 @@ export default function Preferences({
             </div>
           </div>
 
-          <div className={`prefItem ${autoDownload ? "disabled" : ""}`}>
+          <div className="prefItem">
             <div className="prefItemInfo">
               <div className="prefTitle">
                 <span>Use</span> Native MODE

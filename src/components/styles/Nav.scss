@@ -2,7 +2,6 @@
   height: 4rem;
   padding: 1rem 2rem;
   background: var(--background);
-
   position: fixed;
   top: 0;
   left: 0;
@@ -11,6 +10,7 @@
   align-items: center;
   justify-content: space-between;
   z-index: 1;
+  transition: background 300ms;
 
   .site_pref {
     display: flex;
@@ -64,6 +64,10 @@
       }
     }
   }
+}
+
+.site_title {
+  cursor: pointer;
 }
 
 .site_title,

@@ -6,25 +6,30 @@ import Preferences from "./components/Preferences";
 import Search from "./components/Search";
 import VideoInfo from "./components/VideoInfo";
 
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-const API = "https://ytdl-api.herokuapp.com";
-
-const formatTypes = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
+import {
+  autoDownloadExists,
+  click_link,
+  get_download_url,
+  normalizeVideoInfo,
+  sleep,
+} from "./utils/utils";
+import {
+  formats as formatTypes,
+  API,
+  YTregex,
+  formats,
+} from "./utils/constants";
 
 function App() {
   const [dark, setDark] = useState(false);
   const [url, setUrl] = useState("");
   const [onSearch, setSearch] = useState(false);
   const [showInitial, setInitial] = useState(true);
+  const [statusMsg, setStatusMsg] = useState("");
+  const [showStatus, setStatus] = useState(false);
+  const [error, setError] = useState(false);
 
-  const [showPref, setPref] = useState(true);
+  const [showPref, setPref] = useState(false);
   const [autoDownload, setAutoDownload] = useState(false);
   const [nativeMode, setNativeMode] = useState(false);
   const [formatType, setFormatType] = useState({});
@@ -95,53 +100,122 @@ function App() {
 
   const getVideoInfo = async (e) => {
     if (e.key !== "Enter") return;
-    // Need to fetch data here
+    const pInitial = showInitial;
     setInitial(false);
     setSearch(true);
+    setStatus(false);
 
     try {
+      if (!YTregex.test(url)) {
+        throw new Error("Invalid youtube link");
+      }
+
       const res = await axios.get(`${API}/videoInfo`, {
         params: {
           videoURL: url,
         },
       });
 
-      console.log(res.data);
+      if (res.status !== 200) {
+        throw new Error(res.data.message);
+      }
 
-      const info = {
-        title: res.data.videoDetails.title,
-        duration: res.data.videoDetails.lengthSeconds,
-        thumbnail: res.data.videoDetails.thumbnails[3].url,
-        channel: {
-          name: res.data.videoDetails.author.name,
-          url: res.data.videoDetails.author.channel_url,
+      const info = normalizeVideoInfo(res.data);
+      const is_autodownload = await autoDownloadExists(
+        info,
+        {
+          autoDownload,
+          formatType,
         },
-        formats: res.data.formats
-          .filter((format) => {
-            if (format.container !== null && format.hasAudio === true) {
-              return true;
-            }
-            return false;
-          })
-          .map((format) => {
-            return {
-              url: format.url,
-              quality: format.hasVideo
-                ? format.qualityLabel
-                : `${format.audioBitrate} kbps`,
-              format: format.container,
-            };
-          }),
-      };
-
-      console.log(info);
+        printStatus
+      );
 
       setInitial(false);
       setVideoInfo(info);
       setSearch(false);
+
+      if (is_autodownload) {
+        await start_autodownload();
+      }
     } catch (err) {
-      setInitial(true);
+      setError(true);
+      setStatusMsg(err.message);
+      setStatus(true);
+      setInitial(pInitial ? true : false);
+      setSearch(false);
     }
+  };
+
+  const start_autodownload = async () => {
+    setStatus(true);
+    setError(false);
+
+    setStatusMsg(`Auto start downloading in 3 sec`);
+    await sleep(1000);
+
+    setStatusMsg(`Auto start downloading in 2 sec`);
+    await sleep(1000);
+
+    setStatusMsg(`Auto start downloading in 1 sec`);
+    await sleep(1000);
+
+    setStatusMsg(`Auto start downloading in 0 sec`);
+    await sleep(1000);
+
+    setStatusMsg(`Started`);
+    await sleep(1000);
+
+    if (nativeMode) {
+      const nUrl = videoInfo.formats.find(
+        (format) => format.itag === formatType.itag
+      ).url;
+      click_link(nUrl);
+    } else {
+      const dFormat = formats.find((format) => format.itag === formatType.itag);
+      click_link(
+        get_download_url({
+          videoURL: url,
+          format: dFormat.format,
+          itag: dFormat.itag,
+        })
+      );
+    }
+
+    setStatus(false);
+  };
+
+  const download = (nUrl, itag = 0) => {
+    if (nativeMode) {
+      click_link(nUrl);
+    } else {
+      const dFormat = formats.find((format) => format.itag === itag);
+      click_link(
+        get_download_url({
+          videoURL: url,
+          format: dFormat.format,
+          itag: dFormat.itag,
+        })
+      );
+    }
+  };
+
+  const printStatus = (msg, error = false) => {
+    setStatus(true);
+    if (error) {
+      setError(true);
+    }
+
+    setStatusMsg(msg);
+  };
+
+  const resetData = () => {
+    setUrl("");
+    setInitial(true);
+    setStatusMsg("");
+    setStatus(false);
+    setError(false);
+    setFormatType({});
+    setVideoInfo({});
   };
 
   return (
@@ -158,7 +232,13 @@ function App() {
           onNativeModeChange={toggleNativeMode}
         />
       )}
-      <Nav dark={dark} switchTheme={switchTheme} setPref={setPref} />
+      <Nav
+        dark={dark}
+        switchTheme={switchTheme}
+        setPref={setPref}
+        showMain={resetData}
+        isSearching={onSearch}
+      />
       {onSearch ? (
         <Loading />
       ) : (
@@ -168,12 +248,33 @@ function App() {
             setUrl={setUrl}
             getVideoInfo={getVideoInfo}
             videoInfo={videoInfo}
+            download={download}
+            status={{
+              showStatus,
+              setStatus,
+              statusMsg,
+              setStatusMsg,
+              error,
+              setError,
+            }}
           />
         )
       )}
 
       {showInitial && (
-        <Search url={url} setUrl={setUrl} getVideoInfo={getVideoInfo} />
+        <Search
+          url={url}
+          setUrl={setUrl}
+          getVideoInfo={getVideoInfo}
+          status={{
+            showStatus,
+            setStatus,
+            statusMsg,
+            setStatusMsg,
+            error,
+            setError,
+          }}
+        />
       )}
     </div>
   );
