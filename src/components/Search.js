@@ -6,7 +6,7 @@ export default function Search({ url, setUrl, getVideoInfo, status }) {
   return (
     <div className="searchSection">
       <i className="ri-youtube-line"></i>
-      <div style={{ position: "relative" }}>
+      <div className="isearchWrapper">
         <div className="search">
           <input
             value={url}

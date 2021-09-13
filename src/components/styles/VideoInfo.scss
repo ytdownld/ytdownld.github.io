@@ -2,7 +2,7 @@ $animaDelay: 100ms;
 
 .videoInfoSection {
   min-height: 100vh;
-  width: calc(100vw - 3.04rem);
+  width: calc(100vw - 2rem);
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -142,6 +142,16 @@ $animaDelay: 100ms;
       margin-top: 1.2rem;
       animation: initAnima 1000ms $animaDelay * 5 1 forwards;
       opacity: $op;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .infoContainer {
+      flex-direction: column;
+
+      .thumbnailContainer {
+        width: 100%;
+      }
     }
   }
 }
