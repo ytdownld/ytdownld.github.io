@@ -4,8 +4,8 @@ export default function Status({ status }) {
   return (
     status.showStatus && (
       <div className={`status ${status.error ? "error" : ""}`}>
-        {status.error && <i class="ri-error-warning-line"></i>}
-        {!status.error && <i class="ri-information-line"></i>}
+        {status.error && <i className="ri-error-warning-line"></i>}
+        {!status.error && <i className="ri-information-line"></i>}
         <div>{status.statusMsg}</div>
         <button
           onClick={() => {

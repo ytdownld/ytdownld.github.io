@@ -43,6 +43,7 @@ body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   background: var(--background);
+  overflow-x: hidden;
 
   transition: background 300ms;
 }
