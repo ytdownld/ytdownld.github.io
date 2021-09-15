@@ -7,7 +7,7 @@ export const formats = [
     label: "Video 1080P",
   },
   {
-    itag: 136,
+    itag: 22,
     format: "mp4",
     quality: "720p",
     value: "720pmp4",
