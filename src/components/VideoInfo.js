@@ -74,7 +74,7 @@ export default function VideoInfo({
             {videoInfo.formats.map((format, index) => (
               <VideoQuality
                 key={index}
-                resolution={format.quality}
+                quality={format.quality}
                 format={format.format}
                 isVideo={format.hasVideo}
                 url={format.url}

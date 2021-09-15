@@ -184,16 +184,15 @@ function App() {
     setStatus(false);
   };
 
-  const download = (nUrl, itag = 0) => {
+  const download = (nUrl, vInfo = {}) => {
     if (nativeMode) {
       click_link(nUrl);
     } else {
-      const dFormat = formats.find((format) => format.itag === itag);
       click_link(
         get_download_url({
           videoURL: url,
-          format: dFormat.format,
-          itag: dFormat.itag,
+          format: vInfo.format,
+          itag: vInfo.itag,
         })
       );
     }
